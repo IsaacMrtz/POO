@@ -33,9 +33,6 @@ doggis/
 └── static/
     └── style.css      # Estilos globales
 
-
-
-
 ## Base de datos
 
 La base de datos se llama `centroAtencion` y contiene tres tablas:
@@ -45,6 +42,42 @@ La base de datos se llama `centroAtencion` y contiene tres tablas:
 - **Adoption** — relación entre perros y adoptantes con fecha (`dog_id`, `adopter_id`, `date`)
 
 ---
+
+-- Script de creación de la base de datos para el proyecto Doggis
+
+-- Tabla de Perros (Dogs)
+CREATE TABLE IF NOT EXISTS dogs (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+nombre TEXT NOT NULL,
+raza TEXT NOT NULL,
+edad INTEGER,
+descripcion TEXT,
+estado TEXT DEFAULT 'disponible' -- disponible, adoptado
+);
+
+-- Tabla de Adoptantes (Adopters)
+CREATE TABLE IF NOT EXISTS adopters (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+nombre_completo TEXT NOT NULL,
+email TEXT UNIQUE NOT NULL,
+telefono TEXT
+);
+
+-- Tabla de Adopciones (Historial)
+CREATE TABLE IF NOT EXISTS adoptions (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+dog_id INTEGER,
+adopter_id INTEGER,
+fecha_adopcion DATE DEFAULT CURRENT_DATE,
+FOREIGN KEY (dog_id) REFERENCES dogs(id),
+FOREIGN KEY (adopter_id) REFERENCES adopters(id)
+);
+
+-- Datos iniciales de prueba (Opcional)
+INSERT INTO dogs (nombre, raza, edad, descripcion) VALUES
+('Firulais', 'Pastor Alemán', 3, 'Muy juguetón y protector'),
+('Luna', 'Poodle', 2, 'Tranquila y cariñosa'),
+('Rex', 'Labrador', 5, 'Le encanta nadar');
 
 ## Instalación y uso
 
