@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adoptar a {{ dog.name }} — Huellitas</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+</head>
+<body class="form-page">
+
+  <div class="form-wrapper">
+
+    <a href="/" class="form-back-link">← Volver al catálogo</a>
+
+    <!-- PROGRESS STEPS -->
+    <div class="steps">
+      <div class="step step-done">
+        <div class="step-circle">✓</div>
+        <div class="step-label">Elegiste</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step step-active">
+        <div class="step-circle">2</div>
+        <div class="step-label">Tus datos</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step step-inactive">
+        <div class="step-circle">3</div>
+        <div class="step-label">¡Listo!</div>
+      </div>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="form-card">
+
+      <div class="form-card-header">
+        <span class="form-header-icon">🐾</span>
+        <h1 class="form-header-title">Finalizar Adopción</h1>
+        <p class="form-header-sub">Estás a punto de darle un hogar a <strong>{{ dog.name }}</strong></p>
+      </div>
+
+      <div class="form-card-body">
+
+        <!-- Información del perro seleccionado -->
+        <div style="background: var(--lilac); border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1.8rem; display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 2rem;">🐶</span>
+          <div>
+            <div style="font-weight: 800; color: var(--purple-xdark); font-size: 1.05rem;">{{ dog.name }}</div>
+            <div style="font-size: 0.85rem; color: var(--purple-dark);">{{ dog.breed }} · {{ dog.age }} año{% if dog.age != 1 %}s{% endif %}</div>
+          </div>
+          <div style="margin-left: auto;">
+            <span style="background: var(--purple); color: white; font-size: 0.75rem; font-weight: 800; padding: 4px 12px; border-radius: 50px; white-space: nowrap;">ID #{{ dog.id }}</span>
+          </div>
+        </div>
+
+        <form id="adoptionForm" action="/confirmar_adopcion" method="POST" novalidate>
+          <input type="hidden" name="dog_id" value="{{ dog.id }}">
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="name">Nombre</label>
+              <input class="form-input" type="text" id="name" name="name"
+                     placeholder="Tu nombre" required autocomplete="given-name">
+              <div class="field-error" id="name-error"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lastname">Apellido</label>
+              <input class="form-input" type="text" id="lastname" name="lastname"
+                     placeholder="Tu apellido" required autocomplete="family-name">
+              <div class="field-error" id="lastname-error"></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="id_card">Cédula / ID</label>
+            <input class="form-input" type="text" id="id_card" name="id_card"
+                   placeholder="Tu número de identificación" required>
+            <div class="field-error" id="id_card-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="address">Dirección</label>
+            <input class="form-input" type="text" id="address" name="address"
+                   placeholder="Ej: San Salvador, Colonia Escalón, Calle 2" required autocomplete="street-address">
+            <div class="field-error" id="address-error"></div>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span id="btnText">Confirmar compromiso 🐾</span>
+            <span id="btnSpinner" style="display:none;" class="spin">⏳</span>
+          </button>
+        </form>
+
+        <p style="text-align: center; font-size: 0.8rem; color: var(--dark-soft); margin-top: 1rem; line-height: 1.5;">
+          🔒 Tus datos son confidenciales y se usan únicamente para el proceso de adopción.
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIRMACIÓN -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal">
+      <span class="modal-icon" id="modalIcon">🐾</span>
+      <h2 class="modal-title" id="modalTitle">¿Todo listo?</h2>
+      <p class="modal-body" id="modalBody">
+        Estás a punto de confirmar la adopción de <strong id="dogNameInModal">{{ dog.name }}</strong>. 
+        Esta acción quedará registrada en el sistema.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <button onclick="closeModal()" style="padding: 11px 24px; border: 2px solid var(--lilac-dark); background: transparent; color: var(--purple-dark); border-radius: 50px; font-family: 'Nunito', sans-serif; font-weight: 700; cursor: pointer; font-size: 0.95rem;">
+          Espera, revisar
+        </button>
+        <button onclick="submitForm()" class="modal-btn" style="border: none; cursor: pointer; font-family: 'Nunito', sans-serif;">
+          ✅ Sí, confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .field-error {
+      font-size: 0.78rem;
+      color: #ef4444;
+      font-weight: 600;
+      margin-top: 4px;
+      min-height: 18px;
+    }
+    .form-input.invalid {
+      border-color: #ef4444;
+      background: #fff5f5;
+    }
+    .form-input.valid {
+      border-color: #22c55e;
+    }
+  </style>
+
+  <script>
+    const form = document.getElementById('adoptionForm');
+    const modal = document.getElementById('confirmModal');
+    let formIsValid = false;
+
+    // Validación en tiempo real
+    function validateField(input) {
+      const errorEl = document.getElementById(input.id + '-error');
+      const value = input.value.trim();
+      let msg = '';
+
+      if (!value) {
+        msg = 'Este campo es requerido.';
+      } else if (input.id === 'id_card' && !/^[0-9A-Za-z\-]{5,20}$/.test(value)) {
+        msg = 'Ingresa un ID válido (5-20 caracteres).';
+      } else if (input.id === 'name' || input.id === 'lastname') {
+        if (value.length < 2) msg = 'Debe tener al menos 2 caracteres.';
+      } else if (input.id === 'address' && value.length < 5) {
+        msg = 'Escribe una dirección más completa.';
+      }
+
+      if (msg) {
+        input.classList.add('invalid');
+        input.classList.remove('valid');
+        if (errorEl) errorEl.textContent = msg;
+        return false;
+      } else {
+        input.classList.remove('invalid');
+        input.classList.add('valid');
+        if (errorEl) errorEl.textContent = '';
+        return true;
+      }
+    }
+
+    form.querySelectorAll('.form-input[required]').forEach(input => {
+      input.addEventListener('blur', () => validateField(input));
+      input.addEventListener('input', () => {
+        if (input.classList.contains('invalid')) validateField(input);
+      });
+    });
+
+    // Interceptar submit
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      let valid = true;
+      form.querySelectorAll('.form-input[required]').forEach(input => {
+        if (!validateField(input)) valid = false;
+      });
+      if (valid) {
+        modal.classList.add('active');
+      }
+    });
+
+    function closeModal() {
+      modal.classList.remove('active');
+    }
+
+    function submitForm() {
+      modal.classList.remove('active');
+      const btn = document.getElementById('submitBtn');
+      document.getElementById('btnText').style.display = 'none';
+      document.getElementById('btnSpinner').style.display = 'inline';
+      btn.classList.add('loading');
+      form.submit();
+    }
+
+    // Cerrar modal al hacer clic afuera
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModal();
+    });
+
+    // Cerrar con Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+
+</body>
+</html>

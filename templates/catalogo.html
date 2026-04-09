@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piglín — Centro de Adopción</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="logo-icon">🐾</div>
+      <h1>Centro de Adopciòn Piglín</h1>
+    </div>
+    <div class="navbar-links">
+      <a href="#catalogo" class="nav-link">Ver Perritos</a>
+      <a href="#catalogo" class="nav-link nav-link-cta">Adoptar Ahora</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <span class="hero-paws">🐾</span>
+    <span class="hero-paws">🐾</span>
+    <span class="hero-paws">🐾</span>
+
+    <div class="hero-badge">🐶 Centro de adopción responsable</div>
+
+    <h1 class="hero-title">
+      Dale una segunda<br>oportunidad a un <span>amigo fiel</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Cada perrito en nuestra familia espera una persona especial.
+      Encuentros que cambian vidas — las de ellos y la tuya.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#catalogo" class="btn-hero btn-hero-primary">
+        🐕 Ver perritos disponibles
+      </a>
+      <a href="#historia" class="btn-hero btn-hero-secondary">
+        Saber más
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">❤️</div>
+        <div class="hero-stat-label">Con amor</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">🏡</div>
+        <div class="hero-stat-label">Hogares felices</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">🐾</div>
+        <div class="hero-stat-label">100% responsable</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ¿CÓMO FUNCIONA? -->
+  <section class="section" id="historia" style="background: var(--white);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">El proceso</span>
+        <h2 class="section-title">Adoptar es muy sencillo</h2>
+        <p class="section-desc">En tres pasos tienes a tu nuevo mejor amigo en casa.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 1rem;">
+        <div style="text-align: center; padding: 2rem 1rem;">
+          <div style="width: 72px; height: 72px; background: var(--lilac); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.2rem; animation: float 5s ease-in-out infinite;">🔍</div>
+          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--purple-xdark); margin-bottom: 0.6rem;">1. Explora</h3>
+          <p style="color: var(--dark-soft); font-size: 0.95rem; line-height: 1.6;">Navega por el catálogo y conoce a cada perrito con su nombre, raza y edad.</p>
+        </div>
+
+        <div style="text-align: center; padding: 2rem 1rem;">
+          <div style="width: 72px; height: 72px; background: var(--lilac); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.2rem; animation: float 5s 1.5s ease-in-out infinite;">📝</div>
+          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--purple-xdark); margin-bottom: 0.6rem;">2. Regístrate</h3>
+          <p style="color: var(--dark-soft); font-size: 0.95rem; line-height: 1.6;">Llena el formulario de adopción con tus datos básicos. Solo toma un minuto.</p>
+        </div>
+
+        <div style="text-align: center; padding: 2rem 1rem;">
+          <div style="width: 72px; height: 72px; background: var(--lilac); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.2rem; animation: float 5s 3s ease-in-out infinite;">🏠</div>
+          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--purple-xdark); margin-bottom: 0.6rem;">3. Bienvenido</h3>
+          <p style="color: var(--dark-soft); font-size: 0.95rem; line-height: 1.6;">¡Tu nuevo compañero se une a la familia! Juntos escriben una nueva historia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATÁLOGO -->
+  <section class="section" id="catalogo">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Disponibles ahora</span>
+        <h2 class="section-title">Nuestros perritos te esperan</h2>
+        <p class="section-desc">Cada uno tiene su propia historia. ¿Cuál será la tuya?</p>
+      </div>
+
+      <div class="grid-dogs">
+        {% for dog in dogs %}
+        <div class="dog-card">
+          <div class="dog-card-header">
+            <div class="dog-avatar">🐕</div>
+            <h2 class="dog-name">{{ dog.name }}</h2>
+          </div>
+          <div class="dog-card-body">
+            <span class="dog-tag">✅ Disponible para adopción</span>
+            <div class="dog-info-row">
+              <span class="dog-info-label">Raza</span>
+              <span class="dog-info-value">{{ dog.breed }}</span>
+            </div>
+            <div class="dog-info-row">
+              <span class="dog-info-label">Edad</span>
+              <span class="dog-info-value">{{ dog.age }} año{% if dog.age != 1 %}s{% endif %}</span>
+            </div>
+            <a href="/adoptar/{{ dog.id }}" class="btn-card">🐾 ¡Quiero adoptarlo!</a>
+          </div>
+        </div>
+        {% endfor %}
+
+        {% if not dogs %}
+        <div class="empty-state">
+          <span class="empty-state-icon">🎉</span>
+          <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--purple-xdark); margin-bottom: 0.5rem;">¡Todos adoptados!</h3>
+          <p>Increíble — todos los perritos encontraron un hogar hoy.</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- HISTORIAL -->
+      <details class="history-section">
+        <summary class="history-toggle">
+          <span>📋 Historial de adopciones recientes</span>
+          <span class="toggle-arrow">▼</span>
+        </summary>
+        <div class="history-table-wrap">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Mascota</th>
+                <th>Adoptante</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in adoptions %}
+              <tr>
+                <td><strong>{{ item[0] }}</strong></td>
+                <td>{{ item[1] }} {{ item[2] }}</td>
+                <td><span class="badge-date">{{ item[3] }}</span></td>
+              </tr>
+              {% endfor %}
+              {% if not adoptions %}
+              <tr>
+                <td colspan="3" style="text-align: center; padding: 2rem; color: var(--dark-soft);">
+                  Aún no hay adopciones registradas. ¡Sé el primero!
+                </td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 Centro de Adopción Piglìn &mdash; Hecho con 💜 para cada patita sin hogar</p>
+  </footer>
+
+  <!-- TOAST si viene de adopción exitosa -->
+  {% if request.args.get('adopted') %}
+  <div class="toast" id="toast">
+    <span class="toast-icon">🎉</span>
+    <div>
+      <div style="font-weight: 800;">¡Adopción exitosa!</div>
+      <div style="font-size: 0.85rem; opacity: 0.9;">El registro quedó guardado correctamente.</div>
+    </div>
+  </div>
+  <script>
+    setTimeout(() => document.getElementById('toast').classList.add('show'), 300);
+    setTimeout(() => document.getElementById('toast').classList.remove('show'), 5000);
+  </script>
+  {% endif %}
+
+  <script>
+    // Smooth scroll for hero button
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

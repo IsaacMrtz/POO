@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Adopciones</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar">
+        <h1>📋 Historial de Adopciones</h1>
+        <a href="/" style="color: white; text-decoration: none; font-weight: 600;">← Volver al Catálogo</a>
+    </div>
+
+    <div class="main-container">
+        <div class="dog-card" style="width: 100%; max-width: 900px; margin: auto; padding: 30px;">
+            <h2 style="margin-bottom: 20px; color: var(--primary);">Registros en MariaDB</h2>
+            
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--primary); color: var(--primary);">
+                        <th style="padding: 12px;">Mascota</th>
+                        <th style="padding: 12px;">Adoptante</th>
+                        <th style="padding: 12px;">Fecha de Proceso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registro in adoptions %}
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 12px;"><strong>{{ registro[0] }}</strong></td>
+                        <td style="padding: 12px;">{{ registro[1] }} {{ registro[2] }}</td>
+                        <td style="padding: 12px; color: var(--text-light);">{{ registro[3] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if not adoptions %}
+            <div style="text-align: center; padding: 40px;">
+                <p>Aún no hay adopciones registradas. ¡Es hora de buscarle casa a un perrito!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
