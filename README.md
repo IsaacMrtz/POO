@@ -16,6 +16,9 @@ Aplicación web para gestionar la adopción de perros. Permite visualizar un cat
 ## Estructura del proyecto
 
 
+### Estructura del Proyecto
+
+```text
 doggis/
 ├── config.py          # Configuración y conexión a la base de datos
 ├── database.py        # Funciones de acceso a datos (queries SQL)
@@ -24,7 +27,7 @@ doggis/
 ├── main.py            # Punto de entrada de la app
 ├── setup_db.py        # Script de inicialización de la base de datos
 ├── templates/
-│   ├── catalogo.html       # Vista principal: perros disponibles + historial
+│   ├── catalogo.html      # Vista principal: perros disponibles + historial
 │   ├── confirmacion.html   # Vista del formulario de adopción
 │   └── historial.html      # Vista del historial de adopciones
 └── static/
